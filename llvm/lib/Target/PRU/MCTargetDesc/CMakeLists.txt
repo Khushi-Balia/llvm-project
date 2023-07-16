@@ -1,8 +1,18 @@
-add_llvm_library(LLVMPRUDesc
-    PRUMCTargetDesc.cpp
-    PRUMCAsmInfo.cpp
+add_llvm_component_library(LLVMPRUDesc
     PRUInstPrinter.cpp
-    PRUTargetStreamer.cpp
+    PRUMCAsmInfo.cpp
     PRUMCCodeEmitter.cpp
+    PRUMCTargetDesc.cpp
+    PRUTargetStreamer.cpp
+
+    LINK_COMPONENTS
+    MC
+    PRUInfo
+    Support
+    TargetParser
+
+    ADD_TO_COMPONENT
+    PRU
 )
 
+add_dependencies(LLVMPRUDesc PRUCommonTableGen)

@@ -1,5 +1,5 @@
-#if !defined MCTARGETDESC_MCTARGETDESC_H_INCLUDED
-#define MCTARGETDESC_MCTARGETDESC_H_INCLUDED
+#ifndef PRUMCTARGETDESC_MCTARGETDESC_H_INCLUDED
+#define PRUMCTARGETDESC_MCTARGETDESC_H_INCLUDED
 
 #include "llvm/Support/DataTypes.h"
 
@@ -11,9 +11,9 @@ class MCCodeEmitter;
 class MCInstrInfo;
 class MCContext;
 
-MCCodeEmitter *createPRUMCCodeEmitter(const MCInstrInfo &MCII,
-                                        MCContext &Ctx);
 class Target;
+
+MCCodeEmitter *createPRUMCCodeEmitter(const MCInstrInfo &MCII, MCContext &Ctx);
 
 Target &getThePRUTarget();
 
@@ -23,6 +23,7 @@ Target &getThePRUTarget();
 #include "PRUGenRegisterInfo.inc"
 
 #define GET_INSTRINFO_ENUM
+#define GET_INSTRINFO_MC_HELPER_DECLS
 #include "PRUGenInstrInfo.inc"
 
 #define GET_SUBTARGETINFO_ENUM

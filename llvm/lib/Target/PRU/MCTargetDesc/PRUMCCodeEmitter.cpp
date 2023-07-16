@@ -1,4 +1,5 @@
 #include "MCTargetDesc/PRUMCCodeEmitter.h"
+#include "MCTargetDesc/PRUMCTargetDesc.h"
 
 #define DEBUG_TYPE "PRU-code-emitter"
 
@@ -17,4 +18,3 @@ void PRUMCCodeEmitter::encodeInstruction(
     MCSubtargetInfo const &STI) const {
   // TODO
 }
-

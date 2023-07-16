@@ -38,7 +38,7 @@ public:
     return this->TLOF.get();
   }
 
-    ~PRUTargetMachine() override;
+  ~PRUTargetMachine();
 
   TargetPassConfig *createPassConfig(PassManagerBase &PM) override;
 

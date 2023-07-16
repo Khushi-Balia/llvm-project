@@ -10,7 +10,11 @@
 namespace llvm {
 
 class PRURegisterInfo : public PRUGenRegisterInfo {
+
+public:
   PRURegisterInfo();
+
+private:
 
   MCPhysReg const *getCalleeSavedRegs(MachineFunction const *MF) const override;
   uint32_t const *getCallPreservedMask(MachineFunction const &MF,

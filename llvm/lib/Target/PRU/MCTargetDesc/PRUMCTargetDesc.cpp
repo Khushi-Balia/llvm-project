@@ -2,6 +2,7 @@
 #include "PRUMCAsmInfo.h"
 #include "PRUInstPrinter.h"
 #include "PRUTargetStreamer.h"
+#include "PRUMCCodeEmitter.h"
 #include "TargetInfo/PRUTargetInfo.h"
 
 #include "llvm/MC/MCAsmBackend.h"
@@ -22,7 +23,12 @@
 #define GET_REGINFO_MC_DESC
 #include "PRUGenRegisterInfo.inc"
 
-using namespace llvm;
+namespace llvm
+{
+
+MCCodeEmitter *createPRUMCCodeEmitter(const MCInstrInfo &MCII, MCContext &Ctx) {
+  return new PRUMCCodeEmitter(MCII, Ctx);
+}
 
 static MCInstrInfo *createPRUMCInstrInfo() {
   MCInstrInfo *I = new MCInstrInfo();
@@ -74,3 +80,5 @@ extern "C" void LLVMInitializePRUTargetMC() {
   initializeTarget(getThePRUTarget());
 
 }
+  
+} // namespace llvm

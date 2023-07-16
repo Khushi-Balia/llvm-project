@@ -21,9 +21,9 @@ def PRURet: SDNode<"PRUISD::RET_FLAG", SDTNone,
 def PRUJmpLink : SDNode<"PRUISD::JmpLink", SDT_PRUJmpLink,
                          [SDNPHasChain, SDNPOutGlue, SDNPOptInGlue,
                           SDNPVariadic]>;
-def callseq_start : SDNode<"ISD::CALLSEQ_START", SDT_PRUCallSeqStart,
+def PRUcallseq_start : SDNode<"ISD::CALLSEQ_START", SDT_PRUCallSeqStart,
                            [SDNPHasChain, SDNPSideEffect, SDNPOutGlue]>;
-def callseq_end : SDNode<"ISD::CALLSEQ_END", SDT_PRUCallSeqEnd,
+def PRUcallseq_end : SDNode<"ISD::CALLSEQ_END", SDT_PRUCallSeqEnd,
                          [SDNPHasChain, SDNPOptInGlue,
                           SDNPSideEffect, SDNPOutGlue]>;
 def PRUselectcc : SDNode<"PRUISD::SELECT_CC", SDT_PRUSelectCC, [SDNPInGlue]>;
@@ -43,9 +43,9 @@ def i32imm_255 : ImmLeaf<i32, [{return (uint32_t) Imm <= 255;}]>;
 def i16imm_65535 : ImmLeaf<i16, [{return (uint16_t) Imm <= 65535;}]>;
 def i32imm_65535 : ImmLeaf<i32, [{return (uint32_t) Imm <= 65535;}]>;
 
-let Defs = [r2], Uses = [r2], hasSideEffects = 1 in {
-  def ADJCALLSTACKDOWN : Pseudo<(outs), (ins i16imm: $amt, i16imm: $amt2), "#ADJCALLSTACKDOWN", [(callseq_start i16imm: $amt, i16imm: $amt2)]>;
-  def ADJCALLSTACKUP   : Pseudo<(outs), (ins i32imm: $amt, i32imm: $amt2), "#ADJCALLSTACKDOWN", [(callseq_end timm: $amt,   timm: $amt2)]>;
+let Defs = [r2], Uses = [r2], hasSideEffects = 1, isCodeGenOnly = 1 in {
+  def ADJCALLSTACKDOWN : Pseudo<(outs), (ins i32imm: $amt, i32imm: $amt2), "#ADJCALLSTACKDOWN", [(PRUcallseq_start i32imm_31: $amt, i32imm_31: $amt2)]>;
+  def ADJCALLSTACKUP   : Pseudo<(outs), (ins i32imm: $amt, i32imm: $amt2), "#ADJCALLSTACKUP", [(PRUcallseq_end i32imm_31: $amt, i32imm_31: $amt2)]>;
 }
 
 //===----------------------------------------------------------------------===//
@@ -94,4 +94,3 @@ multiclass LDI<bits<8> opcode, string opstr, SDNode opNode, Operand od>{
          !strconcat(opstr, "\t$ri, $addr"),
        [(set reg32:$ri, (opNode addr:$addr))]>;
 }
-

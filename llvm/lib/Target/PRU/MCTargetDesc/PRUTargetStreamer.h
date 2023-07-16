@@ -5,6 +5,7 @@
 #include "llvm/MC/MCRegisterInfo.h"
 #include "llvm/MC/MCStreamer.h"
 #include "llvm/Support/FormattedStream.h"
+#include "llvm/BinaryFormat/ELF.h"
 
 namespace llvm {
 

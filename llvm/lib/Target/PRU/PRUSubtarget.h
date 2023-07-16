@@ -4,6 +4,7 @@
 #include "PRUFrameLowering.h"
 #include "PRUISelLowering.h"
 #include "PRUInstrInfo.h"
+#include "PRUSelectionDAGInfo.h"
 #include "llvm/ADT/Triple.h"
 #include "llvm/CodeGen/SelectionDAGTargetInfo.h"
 #include "llvm/CodeGen/TargetSubtargetInfo.h"
@@ -11,6 +12,7 @@
 #include "llvm/MC/MCInstrItineraries.h"
 #include "llvm/Support/CommandLine.h"
 #include "llvm/Support/ErrorHandling.h"
+#include "llvm/BinaryFormat/ELF.h"
 
 #define GET_SUBTARGETINFO_HEADER
 #include "PRUGenSubtargetInfo.inc"
@@ -20,18 +22,23 @@
 namespace llvm {
 
 class PRUSubtarget : public PRUGenSubtargetInfo {
-  
-  virtual void anchor();
-  
+
   private:
   PRUInstrInfo InstrInfo;
   PRUFrameLowering FrameLowering;
   PRUTargetLowering TLInfo;
-  SelectionDAGTargetInfo TSInfo;
+  PRUSelectionDAGInfo TSInfo;
+
+  unsigned ELFArch = 0;
+
+  // Dummy member, used by FeatureSet's. We cannot have a SubtargetFeature with
+  // no variable, so we instead bind pseudo features to this variable.
+  bool m_FeatureSetDummy = false;
   
   public:
   PRUSubtarget(const Triple &TT, const std::string &CPU, const std::string &FS,
                const PRUTargetMachine &TM);
+  virtual ~PRUSubtarget() = default;
 
   const PRUInstrInfo *getInstrInfo() const override { return &InstrInfo; }
   const TargetFrameLowering *getFrameLowering() const override {
@@ -42,6 +49,9 @@ class PRUSubtarget : public PRUGenSubtargetInfo {
   }
   const SelectionDAGTargetInfo *getSelectionDAGInfo() const override {
     return &TSInfo;
+  }
+  const PRURegisterInfo *getRegisterInfo() const override {
+    return &InstrInfo.getRegisterInfo();
   }
 
 
@@ -55,4 +65,3 @@ class PRUSubtarget : public PRUGenSubtargetInfo {
 } // namespace llvm
 
 #endif
-

@@ -16,7 +16,10 @@ public:
   explicit PRUInstrInfo();
 
   // TODO
-  
+  const PRURegisterInfo &getRegisterInfo() const { return RI; }
+
+  private:
+  const PRURegisterInfo RI;
  
 };
 

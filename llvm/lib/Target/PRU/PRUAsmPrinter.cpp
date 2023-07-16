@@ -22,4 +22,3 @@ public:
 extern "C" LLVM_EXTERNAL_VISIBILITY void LLVMInitializePRUAsmPrinter() {
   llvm::RegisterAsmPrinter<llvm::PRUAsmPrinter> X(llvm::getThePRUTarget());
 }
-

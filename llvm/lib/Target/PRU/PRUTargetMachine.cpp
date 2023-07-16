@@ -64,10 +64,20 @@ PRUTargetMachine::getSubtargetImpl(Function const &F) const {
   return &Subtarget;
 }
 
+PRUSubtarget const *PRUTargetMachine::getSubtargetImpl() const {
+  return &Subtarget;
+}
+
 TargetPassConfig *PRUTargetMachine::createPassConfig(PassManagerBase &PM) {
   return new PRUPassConfig(*this, PM);
 }
 
+// TODO FIXME (implement PRUMachineFunctionInfo class)
+MachineFunctionInfo *PRUTargetMachine::createMachineFunctionInfo(
+    BumpPtrAllocator &Allocator, const Function &F,
+    const TargetSubtargetInfo *STI) const {
+  return nullptr;
+}
 
 extern "C" LLVM_EXTERNAL_VISIBILITY void LLVMInitializePRUTarget() {
 // Register the target.
