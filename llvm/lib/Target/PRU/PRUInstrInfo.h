@@ -1,3 +1,9 @@
+//===----------------------------------------------------------------------===//
+//
+// This file contains the PRU implementation of the TargetInstrInfo class.
+//
+//===----------------------------------------------------------------------===//
+
 #ifndef PRUINSTRINFO_H_INCLUDED
 #define PRUINSTRINFO_H_INCLUDED
 
@@ -15,8 +21,10 @@ virtual void anchor();
 public:
   explicit PRUInstrInfo();
 
-  // TODO
   const PRURegisterInfo &getRegisterInfo() const { return RI; }
+
+// Return the number of bytes of code the specified instruction maybe.
+  unsigned GetInstSizeInBytes(const MachineInstr &MI) const;
 
   private:
   const PRURegisterInfo RI;

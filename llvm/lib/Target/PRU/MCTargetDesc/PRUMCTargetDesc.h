@@ -1,3 +1,9 @@
+//===----------------------------------------------------------------------===//
+//
+// This file provides PRU specific target descriptions.
+//
+//===----------------------------------------------------------------------===//
+
 #ifndef PRUMCTARGETDESC_MCTARGETDESC_H_INCLUDED
 #define PRUMCTARGETDESC_MCTARGETDESC_H_INCLUDED
 

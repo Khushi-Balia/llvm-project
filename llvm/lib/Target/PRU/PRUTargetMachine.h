@@ -1,4 +1,8 @@
-//Dummy stuff
+//===----------------------------------------------------------------------===
+//
+// This file declares the PRU specific subclass of TargetMachine.
+//
+//===----------------------------------------------------------------------===
 
 #ifndef LLVM_PRU_TARGET_MACHINE_H
 #define LLVM_PRU_TARGET_MACHINE_H

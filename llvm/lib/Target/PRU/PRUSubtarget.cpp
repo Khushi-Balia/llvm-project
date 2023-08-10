@@ -1,3 +1,9 @@
+//===----------------------------------------------------------------------===//
+//
+// This file implements the PRU specific subclass of TargetSubtargetInfo.
+//
+//===----------------------------------------------------------------------===//
+
 #include "PRUSubtarget.h"
 #include "PRU.h"
 #include "PRUISelLowering.h"

@@ -32,7 +32,13 @@ void PRUFrameLowering::emitEpilogue(MachineFunction &MF,
 }
 
 bool PRUFrameLowering::hasFP(const MachineFunction &MF) const {
-  // TODO
+  const PRUSubtarget &STI = MF.getSubtarget<PRUSubtarget>();
+  const MachineFrameInfo &MFI = MF.getFrameInfo();
+  const TargetRegisterInfo *TRI = STI.getRegisterInfo();
+
+  return MF.getTarget().Options.DisableFramePointerElim(MF) ||
+         MFI.hasVarSizedObjects() || MFI.isFrameAddressTaken();
+
   return false;
 }
 

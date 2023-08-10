@@ -1,3 +1,9 @@
+//===----------------------------------------------------------------------===//
+//
+// This file contains the PRU implementation of the TargetInstrInfo class.
+//
+//===----------------------------------------------------------------------===//
+
 #include "PRUInstrInfo.h"
 #include "PRU.h"
 #include "PRURegisterInfo.h"
@@ -23,3 +29,10 @@ void PRUInstrInfo::anchor() {}
 PRUInstrInfo::PRUInstrInfo()
     : PRUGenInstrInfo(PRU::ADJCALLSTACKDOWN,
                            PRU::ADJCALLSTACKUP) {}
+
+unsigned PRUInstrInfo::GetInstSizeInBytes(const MachineInstr &MI) const {
+  switch (MI.getOpcode()) {
+    default:
+      return MI.getDesc().getSize();
+  }
+}

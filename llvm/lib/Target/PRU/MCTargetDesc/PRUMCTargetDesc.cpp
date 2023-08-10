@@ -1,3 +1,9 @@
+//===----------------------------------------------------------------------===//
+//
+// This file provides PRU specific target descirptions.
+//
+//===----------------------------------------------------------------------===//
+
 #include "PRUMCTargetDesc.h"
 #include "PRUMCAsmInfo.h"
 #include "PRUInstPrinter.h"

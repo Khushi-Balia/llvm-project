@@ -1,7 +1,14 @@
+//===----------------------------------------------------------------------===//
+//
+// PRU specific subclass of MachineFunctionInfo.
+//
+//===----------------------------------------------------------------------===//
+
 #include "PRUMachineFunctionInfo.h"
 
 #include "PRUInstrInfo.h"
 #include "PRUSubtarget.h"
+#include "PRUMachineFUnctionInfo.h"
 #include "llvm/IR/Function.h"
 #include "llvm/CodeGen/MachineInstrBuilder.h"
 #include "llvm/CodeGen/MachineRegisterInfo.h"

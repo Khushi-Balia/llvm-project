@@ -1,9 +1,29 @@
+//===----------------------------------------------------------------------===//
+// This is the top level entry point for the PRU target.
+//===----------------------------------------------------------------------===//
+
+//===----------------------------------------------------------------------===//
+// Target-independent interfaces
+//===----------------------------------------------------------------------===//
+
 include "llvm/Target/Target.td"
 
+//===----------------------------------------------------------------------===//
+// Target-dependent interfaces
+//===----------------------------------------------------------------------===//
+
+// Register Infomation
 include "PRURegisterInfo.td"
+
+// Instruction Description
 include "PRUInstrInfo.td"
+
+// Calling Convention
 include "PRUCallingConv.td"
+
+// Devices Definitions
 include "PRUDevices.td"
+
 
 def PRUInstrInfo : InstrInfo;
 

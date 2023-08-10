@@ -1,3 +1,9 @@
+//===----------------------------------------------------------------------===//
+//
+// This file contains the PRU implementation of the TargetRegisterInfo class.
+//
+//===----------------------------------------------------------------------===//
+
 #include "PRURegisterInfo.h"
 #include "PRU.h"
 #include "PRUSubtarget.h"
@@ -79,6 +85,7 @@ bool PRURegisterInfo::eliminateFrameIndex(MachineBasicBlock::iterator II,
 
 Register
 PRURegisterInfo::getFrameRegister(MachineFunction const &MF) const {
+const TargetFrameLowering *TFI = MF.getSubtarget().getFrameLowering();
 return PRU::r2;
 }
 

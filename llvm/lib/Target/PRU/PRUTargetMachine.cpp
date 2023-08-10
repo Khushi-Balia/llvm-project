@@ -1,3 +1,9 @@
+//===----------------------------------------------------------------------===//
+//
+// This file defines the PRU specific subclass of TargetMachine.
+//
+//===----------------------------------------------------------------------===//
+
 #include "PRUTargetMachine.h"
 
 #include "PRU.h"
@@ -8,7 +14,6 @@
 #include "llvm/IR/Module.h"
 #include "llvm/MC/TargetRegistry.h"
 #include "TargetInfo/PRUTargetInfo.h"
-
 
 #include <optional>
 #include <string>
@@ -72,11 +77,11 @@ TargetPassConfig *PRUTargetMachine::createPassConfig(PassManagerBase &PM) {
   return new PRUPassConfig(*this, PM);
 }
 
-// TODO FIXME (implement PRUMachineFunctionInfo class)
 MachineFunctionInfo *PRUTargetMachine::createMachineFunctionInfo(
     BumpPtrAllocator &Allocator, const Function &F,
     const TargetSubtargetInfo *STI) const {
-  return nullptr;
+  return PRUMachineFunctionInfo::create<PRUMachineFunctionInfo>(Allocator, F,
+                                                              STI);
 }
 
 extern "C" LLVM_EXTERNAL_VISIBILITY void LLVMInitializePRUTarget() {

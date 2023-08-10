@@ -1,3 +1,10 @@
+//===----------------------------------------------------------------------===
+//
+// This file contains the entry points for global functions defined in
+//  the LLVM PRU backend.
+//
+//===----------------------------------------------------------------------===
+
 #ifndef PRU_H_INCLUDED
 #define PRU_H_INCLUDED
 
@@ -7,7 +14,7 @@
 namespace llvm {
 
 class PRUTargetMachine;
-
+class FunctionPass;
 } // namespace llvm
 
 #endif // PRU_H_INCLUDED
