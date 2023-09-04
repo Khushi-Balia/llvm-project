@@ -14,8 +14,11 @@ class InstPRU<dag outs, dag ins, string asmstr, list<dag> pattern>
   let Pattern = pattern;
   let Size = 4;
 
-  bits<8> Opcode = 0;
-  let Inst{31-24} = Opcode;
+  bits<3> Opcode = 0;
+  let Inst{29-31} = Opcode;
+  
+  bits<4> InstOpcode = 0;
+  let Inst{25-28} = InstOpcode;
 
   let DecoderNamespace = "PRU";
   field bits<32> SoftFail = 0;
@@ -33,37 +36,56 @@ class Pseudo<dag outs, dag ins, string asmstr, list<dag> pattern>
 
 // ALU Instructions
 
+//===----------------------------------------------------------------------===//
 // ALU register-register instruction
-class ALU_Inst_RR<bits<8> opcode, dag outs, dag ins, string asmstr,
+//===----------------------------------------------------------------------===//
+class ALU_Inst_RR<bits<3> opcode, bits<4> instopcode, dag outs, dag ins, string asmstr,
                   list<dag> pattern>
     : InstPRU<outs, ins, asmstr, pattern> {
 
   bits<5> ri; // destination register
   bits<5> rj; // source 1 register
   bits<5> rk; // source 2 register
+  bits<3> rfi; // destination field
+  bits<3> rfj; // source 1 field
+  bits<3> rfk; // source 2 field
 
   let Opcode = opcode;
-  let Inst{23-19} = ri;
-  let Inst{17-13} = rj;
-  let Inst{12-8} = rk;
-  let Inst{7-0} = 0;
+  let InstOpcode = instopcode;
+  let Inst{24-24} = 1;
+  let Inst{21-23} = rfk;
+  let Inst{16-20} = rk;
+  let Inst{13-15} = rfj;
+  let Inst{8-12} = rj;
+  let Inst{5-7} = rfi;
+  let Inst{0-4} = ri;
 }
 
+//===----------------------------------------------------------------------===//
 // ALU register-immediate instruction
-class ALU_Inst_RI<bits<8> opcode, dag outs, dag ins, string asmstr,
+//===----------------------------------------------------------------------===//
+
+class ALU_Inst_RI<bits<3> opcode, bits<4> instopcode, dag outs, dag ins, string asmstr,
                   list<dag> pattern>
     : InstPRU<outs, ins, asmstr, pattern> {
 
   bits<5> ri; // destination register
   bits<5> rj; // source 1 register
-  bits<14> const; // constant/immediate value
+  bits<8> imm; // source 2 (immediate)
+  bits<3> rfi; // destination field
+  bits<3> rfj; // source 1 field
 
   let Opcode = opcode;
-  let Inst{23-19} = ri;
-  let Inst{18-14} = rj;
-  let Inst{13-0} = const;
+  let InstOpcode = instopcode;
+  let Inst{24-24} = 0;
+  let Inst{16-23} = imm;
+  let Inst{13-15} = rfj;
+  let Inst{8-12} = rj;
+  let Inst{5-7} = rfi;
+  let Inst{0-4} = ri;
 }
 
+// Dummy instruction, need to be changed for the below two.
 // Flow Control Instructions
 class FC_Inst<bits<8> opcode, dag outs, dag ins, string asmstr,
                 list<dag> pattern>
@@ -71,14 +93,17 @@ class FC_Inst<bits<8> opcode, dag outs, dag ins, string asmstr,
 
   bits<5> ri;
   bits<5> rj;
-  bits<4> condition;
-  bits<10> addr;
+  bits<3> rfi;
+  bits<3> rfj;
 
   let Opcode = opcode;
-  let Inst{23-19} = ri; 
-  let Inst{18-14} = rj; 
+  let Inst{27-31} = ri;
+  let Inst{24-26} = rfi;
+  let Inst{19-23} = rj;
+  let Inst{16-18} = rfj;
   let Inst{13-10} = condition; 
   let Inst{9-0} = addr; 
+  let Opcode = opcode;
 }
 
 // Load/Store Instructions

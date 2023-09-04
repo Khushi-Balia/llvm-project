@@ -38,8 +38,6 @@ bool PRUFrameLowering::hasFP(const MachineFunction &MF) const {
 
   return MF.getTarget().Options.DisableFramePointerElim(MF) ||
          MFI.hasVarSizedObjects() || MFI.isFrameAddressTaken();
-
-  return false;
 }
 
 MachineBasicBlock::iterator

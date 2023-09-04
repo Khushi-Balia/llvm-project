@@ -58,6 +58,12 @@ def jump_target : Operand<OtherVT>
 
 def gaddr : Operand<iPTR>;
 
+def mem : Operand<iPTR> {
+  let PrintMethod = "printMemOperand";
+  let MIOperandInfo = (ops reg32, i32imm);
+  let EncoderMethod = "getMemEncoding";
+}
+
 // PRU Complex Pattern Definitions.
 
 def addr : Operand<iPTR>, ComplexPattern<iPTR, 2, "SelectAddress"> {
@@ -76,21 +82,24 @@ def regaddr : Operand<iPTR>, ComplexPattern<iPTR, 2, "SelectAddressReg"> {
 multiclass ArithLogicRI<bits<8> opcode, string opstr, SDNode opNode>
 {
   
-  def RR: ALU_Inst_RR<opcode, (outs reg32:$ri), (ins reg32:$rj, reg32:$rk),
-       !strconcat(opstr, "\t$ri, $rj, $rk"),
-       [(set reg32:$ri, (opNode reg32:$rj, reg32:$rk))]>;
+  def RR: ALU_Inst_RR<opcode, (outs reg32:$ri, breg: $rfi), (ins reg32:$rj, breg: $rfj, reg32:$rk, breg: $rfk),
+       !strconcat(opstr, "\t$ri, $rj, $rk, $rfi, $rfj, $rfk"),
+       [(set reg32:$ri, breg: $rfi (opNode reg32:$rj, breg: $rfj, reg32:$rk, breg: $rfk))]>;
 
 
 // Arithmetic and logical instructions with 2 register operands
 
- def RI : ALU_Inst_RI<opcode, (outs reg32:$ri), (ins reg32:$rj, i16imm_255:$const),
-       !strconcat(opstr, "\t$ri, $rj, $const"),
-       [(set reg32:$ri, (opNode reg32:$rj, i16imm_255:$const))]>;
+ def RI : ALU_Inst_RI<opcode, (outs reg32:$ri, breg: $rfi), (ins reg32:$rj, i16imm_255:$const),
+       !strconcat(opstr, "\t$ri, $rj, $rfi, $rfj, $const"),
+       [(set reg32:$ri, breg: $rfi (opNode reg32:$rj, breg: $rfj, i16imm_255:$const))]>;
 }
 
+// To be done
 //Load and store
 multiclass LDI<bits<8> opcode, string opstr, SDNode opNode, Operand od>{
   def LD : LS_Inst<opcode, (outs reg32:$ri), (ins od:$addr),
          !strconcat(opstr, "\t$ri, $addr"),
        [(set reg32:$ri, (opNode addr:$addr))]>;
 }
+
+
