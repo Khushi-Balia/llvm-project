@@ -1,0 +1,6 @@
+[component_0]
+type = Library
+name = PRUDesc
+parent = PRU
+required_libraries = MC Support PRUAsmPrinter PRUInfo
+add_to_library_groups = PRU
